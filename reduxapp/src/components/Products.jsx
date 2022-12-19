@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from "react-redux"
+import { useDispatch,useSelector } from "react-redux"
 import { add } from '../store/cartSlice'
 import { fetchProducts } from '../store/productSlice'
 
@@ -12,12 +12,14 @@ import { fetchProducts } from '../store/productSlice'
 
 const Products = () => {
 
-    const [products, setProducts] = useState([])  
+    // const [products, setProducts] = useState([])  
     const dispatch = useDispatch()
+    const {data,status} = useSelector((state) => state.product)
 
     useEffect(() => {
+      
 
-        dispatch(fetchProducts)
+        dispatch(fetchProducts())
         // fetchProducts().then((res) => {
         //     console.log(res);
         //     setProducts(res)
@@ -39,10 +41,10 @@ const Products = () => {
         <div className='productsWrapper'>
 
             {
-                products.map((product,index) => {
+                data.map((product,index) => {
                     return (
 
-                        <div className='card' key={index}>
+                        <div className='card' key={product.id}>
                             
                             <img src={product.image} alt="" />
                             <h4>{product.title}</h4>
@@ -53,6 +55,7 @@ const Products = () => {
                 })
 
             }
+            
         </div>
     )
 }
